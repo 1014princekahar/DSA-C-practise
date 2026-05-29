@@ -5,12 +5,14 @@
 int queue[SIZE];
 int front = -1, rear = -1;
 int f = -1, r = -1;
+int input = -1, output = -1;
 
 void clearScreen();
 int isFull();
 int isEmpty();
 
-void inputRestriction();
+void inputRestriction(int);
+void outputRestriction(int);
 
 void insertFromFront(int value);
 void insertFromRear(int value);
@@ -18,8 +20,8 @@ void insertFromRear(int value);
 void deleteFromFront();
 void deleteFromRear();
 
-void insert();
-void delete();
+void insert(int);
+void delete(int);
 
 void displayQueue();
 
@@ -27,41 +29,36 @@ int main()
 {
     int choice;
     clearScreen();
-    do
+
+    printf(" =====> Double Handed Queue Operations <===== \n");
+    if (input == -1 && output == -1)
     {
-        printf(" =====> Double Handed Queue Operations <===== \n");
         printf("1. Input Restriction\n");
         printf("2. Output Restriction\n");
-        printf("3. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice)
+        if (choice == 1)
         {
-        case 1:
+
             clearScreen();
             printf("Input Restriction\n");
-            // Implement input restriction logic here
-            inputRestriction();
-            break;
-
-        case 2:
+            inputRestriction(choice);
+            return 0;
+        }
+        else if (choice == 2)
+        {
             clearScreen();
             printf("Output Restriction\n");
             // Implement output restriction logic here
-            break;
-
-        case 3:
-            clearScreen();
-            printf("Exiting...\n");
-            break;
-
-        default:
-            printf("Invalid choice......\n");
+            outputRestriction(choice);
+            return 0;
         }
-    } while (choice != 3);
-
-    return 0;
+        else
+        {
+            printf("You have choose wrong option....");
+        }
+    }
 }
 
 void clearScreen()
@@ -93,7 +90,7 @@ int isEmpty()
     return 0;
 }
 
-void inputRestriction()
+void inputRestriction(int ch)
 {
     int choice;
     do
@@ -111,12 +108,12 @@ void inputRestriction()
         {
         case 1:
             clearScreen();
-            insert();
+            insert(ch);
             break;
 
         case 2:
             clearScreen();
-            delete();
+            delete(ch);
             break;
 
         case 3:
@@ -135,14 +132,106 @@ void inputRestriction()
     } while (choice != 4);
 }
 
+void outputRestriction(int ch)
+{
+    int choice;
+    do
+    {
+        printf("\n =====> Output Restriction Options <===== \n");
+        printf("1. Insert \n");
+        printf("2. Delete \n");
+        printf("3. Display \n");
+        printf("4. Exit \n");
 
-void insert()
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            clearScreen();
+            insert(ch);
+            break;
+
+        case 2:
+            clearScreen();
+            delete(ch);
+            break;
+
+        case 3:
+            clearScreen();
+            displayQueue();
+            break;
+
+        case 4:
+            printf("Exiting.....");
+            break;
+
+        default:
+            printf("You Have choose wrong option....");
+        }
+
+    } while (choice != 4);
+}
+
+void insert(int ch)
 {
     int choice;
     int value;
-    printf("\n ====> Insert Options<==== \n");
-    if (r == -1 && f == -1)
+    printf("\n ====> Insert Options <==== \n");
+    if (ch == 1)
     {
+        if (r == -1 && f == -1)
+        {
+            printf("1. Insert From Front \n");
+            printf("2. Insert From Rear \n");
+
+            printf("Enter Your Choice: ");
+            scanf("%d", &choice);
+
+            if (choice == 1)
+            {
+                printf("Insert From Front \n");
+                printf("Insert Value: ");
+                scanf("%d", &value);
+                insertFromFront(value);
+                f = 1;
+            }
+            else if (choice == 2)
+            {
+                printf("Insert From Rear \n");
+                printf("Insert Value: ");
+                scanf("%d", &value);
+                insertFromRear(value);
+                r = 1;
+            }
+            else
+            {
+                printf("You have choose wrong option....");
+            }
+        }
+
+        else if (r == -1)
+        {
+            printf("Insert From Front \n");
+            printf("Insert Value: ");
+            scanf("%d", &value);
+            insertFromFront(value);
+        }
+        else
+        {
+            printf("Insert From Rear \n");
+            printf("Insert Value: ");
+            scanf("%d", &value);
+            insertFromRear(value);
+            r = 1;
+        }
+    }
+    else
+    {
+
+        printf("\n ====> Insert Options <==== \n");
+
         printf("1. Insert From Front \n");
         printf("2. Insert From Rear \n");
 
@@ -155,7 +244,6 @@ void insert()
             printf("Insert Value: ");
             scanf("%d", &value);
             insertFromFront(value);
-            f = 1;
         }
         else if (choice == 2)
         {
@@ -163,31 +251,13 @@ void insert()
             printf("Insert Value: ");
             scanf("%d", &value);
             insertFromRear(value);
-            r = 1;
         }
         else
         {
             printf("You have choose wrong option....");
         }
     }
-
-    else if (r == -1)
-    {
-        printf("Insert From Front \n");
-        printf("Insert Value: ");
-        scanf("%d", &value);
-        insertFromFront(value);
-    }
-    else
-    {
-        printf("Insert From Rear \n");
-        printf("Insert Value: ");
-        scanf("%d", &value);
-        insertFromRear(value);
-        r = 1;
-    }
 }
-
 
 void insertFromFront(int value)
 {
@@ -201,7 +271,7 @@ void insertFromFront(int value)
         printf("rear = %d\nfront = %d\n", rear, front);
     }
 
-    else if (rear == front - 1 || (front == 0 && rear == SIZE -1 ))
+    else if (rear == front - 1 || (front == 0 && rear == SIZE - 1))
     {
         printf("Queue is Full\n");
         return;
@@ -216,8 +286,8 @@ void insertFromFront(int value)
 
         printf("rear = %d\nfront = %d\n", rear, front);
     }
-    
-    // else if ( front < rear) 
+
+    // else if ( front < rear)
     // {
 
     // }
@@ -286,36 +356,77 @@ void insertFromRear(int value)
     }
 }
 
-void delete()
+void delete(int ch)
 {
     int choice;
-    printf("\n =====> Delete Options <===== \n");
-    printf("1. Delete From Front \n");
-    printf("2. Delete From Rear \n");
-    printf("3. Exit \n");
-
-    printf("Enter Your Choice: ");
-    scanf("%d", &choice);
-
-    switch (choice)
+    if (ch == 1)
     {
-    case 1:
-        clearScreen();
-        deleteFromFront();
-        break;
+        printf("\n =====> Delete Options <===== \n");
+        printf("1. Delete From Front \n");
+        printf("2. Delete From Rear \n");
+        printf("3. Exit \n");
 
-    case 2:
-        clearScreen();
-        deleteFromRear();
-        break;
+        printf("Enter Your Choice: ");
+        scanf("%d", &choice);
 
-    case 3:
-        clearScreen();
-        printf("Exiting.....");
-        break;
+        switch (choice)
+        {
+        case 1:
+            clearScreen();
+            deleteFromFront();
+            break;
 
-    default:
-        printf("You Have choose wrong option....");
+        case 2:
+            clearScreen();
+            deleteFromRear();
+            break;
+
+        case 3:
+            clearScreen();
+            printf("Exiting.....");
+            break;
+
+        default:
+            printf("You Have choose wrong option....");
+        }
+    }
+    else
+    {
+        printf("\n =====> Delete Options <===== \n");
+        if (r == -1 && f == -1)
+        {
+            printf("1. Delete From Front \n");
+            printf("2. Delete From Rear \n");
+
+            printf("Enter Your Choice: ");
+            scanf("%d", &choice);
+
+            if (choice == 1)
+            {
+                deleteFromFront();
+                f = 0;
+            }
+            else if (choice == 2)
+            {
+                deleteFromRear();
+                r = 0;
+            }
+            else
+            {
+                printf("You have choose wrong option....");
+            }
+        }
+
+        else if (r == -1)
+        {
+            deleteFromFront();
+        }
+
+        else
+        {
+            deleteFromRear();
+            r = 0;
+        }
     }
 }
 
