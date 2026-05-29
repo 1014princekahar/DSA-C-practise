@@ -187,6 +187,7 @@ void insert()
     }
 }
 
+
 void insertFromFront(int value)
 {
     if (front == -1 && rear == -1)
